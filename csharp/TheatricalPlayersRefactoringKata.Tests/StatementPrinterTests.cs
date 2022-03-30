@@ -44,8 +44,8 @@ namespace TheatricalPlayersRefactoringKata.Tests
             var statementPrinter = new StatementPrinter();
             
             // Not implemented yet
-            // var result = statementPrinter.PrintAsHtml(invoice, plays);
-            // Approvals.Verify(result);
+             var result = statementPrinter.PrintAsHtml(invoice, plays);
+             Approvals.Verify(result);
         }
 
         [Test]

@@ -17,6 +17,17 @@ namespace TheatricalPlayersRefactoringKata
             return result;
         }
 
+        public string PrintAsHtml(Invoice invoice, Dictionary<string, Play> plays)
+        {
+            var perfomanceAmount = new Dictionary<string, int>();
+            var totalAmount = 0;
+            
+            var volumeCredits = Calculate(invoice, plays, perfomanceAmount, ref totalAmount);
+
+            var result = PrintHtml(invoice, plays, perfomanceAmount, totalAmount, volumeCredits);
+            return result;
+        }
+
         private int Calculate(Invoice invoice, Dictionary<string, Play> plays, Dictionary<string, int> perfomanceAmount,
             ref int totalAmount)
         {
@@ -51,6 +62,30 @@ namespace TheatricalPlayersRefactoringKata
 
             result += string.Format(cultureInfo, "Amount owed is {0:C}\n", Convert.ToDecimal(totalAmount / 100));
             result += string.Format("You earned {0} credits\n", volumeCredits);
+            return result;
+        }
+
+        private static string PrintHtml(Invoice invoice, Dictionary<string, Play> plays, Dictionary<string, int> perfomanceAmount, int totalAmount, int volumeCredits)
+        {
+            var result = "<html>\n";
+            result +=  string.Format("<h1>Statement for {0}</h1>\n", invoice.Customer);
+            result += "<table>\n";
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+            result += "  <tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
+            foreach (var perf in invoice.Performances)
+            {
+                var play = plays[perf.PlayID];
+                var thisAmount = perfomanceAmount[perf.PlayID];
+                // print line for this order
+                
+                result += string.Format(cultureInfo, "  <tr><td>{0}</td><td>{1:C}</td><td>${2}</td></tr>\n", play.Name,
+                    Convert.ToDecimal(thisAmount / 100), perf.Audience);
+            }
+
+            result += "</table>\n";
+            result += string.Format(cultureInfo, "<p>Amount owed is <em>${0:C}</em></p>\n", Convert.ToDecimal(totalAmount / 100));
+            result += string.Format("<p>You earned <em>{0}</em> credits</p>\n", volumeCredits);
+            result += "</html>\n";
             return result;
         }
 

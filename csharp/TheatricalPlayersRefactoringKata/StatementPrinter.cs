@@ -78,8 +78,8 @@ namespace TheatricalPlayersRefactoringKata
                 var thisAmount = perfomanceAmount[perf.PlayID];
                 // print line for this order
                 
-                result += string.Format(cultureInfo, "  <tr><td>{0}</td><td>{1:C}</td><td>${2}</td></tr>\n", play.Name,
-                    Convert.ToDecimal(thisAmount / 100), perf.Audience);
+                result += string.Format(cultureInfo, "  <tr><td>{0}</td><td>{1}</td><td>${2:C}</td></tr>\n", play.Name,
+                    perf.Audience, Convert.ToDecimal(thisAmount / 100));
             }
 
             result += "</table>\n";

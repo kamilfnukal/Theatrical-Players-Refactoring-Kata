@@ -20,10 +20,10 @@ namespace TheatricalPlayersRefactoringKata
                 switch (play.Type) 
                 {
                     case "tragedy":
-                        thisAmount = computeTragedyAmount();
+                        thisAmount = computeTragedyAmount(perf.Audience);
                         break;
                     case "comedy":
-                        thisAmount = computeComedyAmount();
+                        thisAmount = computeComedyAmount(perf.Audience);
                         break;
                     default:
                         throw new Exception("unknown type: " + play.Type);
@@ -42,24 +42,24 @@ namespace TheatricalPlayersRefactoringKata
             return result;
         }
 
-        int computeTragedyAmount()
+        int computeTragedyAmount(int audianceCount)
         {
             var thisAmount = 40000;
-            if (perf.Audience > 30)
+            if (audianceCount > 30)
             {
-                thisAmount += 1000 * (perf.Audience - 30);
+                thisAmount += 1000 * (audianceCount - 30);
             }
             return thisAmount;
         }
 
-        int computeComedyAmount()
+        int computeComedyAmount(int audianceCount)
         {
             var thisAmount = 30000;
-            if (perf.Audience > 20)
+            if (audianceCount > 20)
             {
-                thisAmount += 10000 + 500 * (perf.Audience - 20);
+                thisAmount += 10000 + 500 * (audianceCount - 20);
             }
-            thisAmount += 300 * perf.Audience;
+            thisAmount += 300 * audianceCount;
             return thisAmount;
         }
     }
